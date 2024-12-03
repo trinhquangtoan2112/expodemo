@@ -3,24 +3,32 @@ import {
   launchCameraAsync,
   useCameraPermissions,
   PermissionStatus,
+  launchImageLibraryAsync,
 } from "expo-image-picker";
 import { useState } from "react";
 import { Colors } from "../../constant/colors";
+import * as ImagePicker1 from "expo-image-picker";
 
 function ImagePicker() {
   const [pickedImage, setPickedImage] = useState();
 
   const [cameraPermissionInformation, requestPermission] =
-    useCameraPermissions();
+    ImagePicker1.useCameraPermissions();
 
   async function verifyPermissions() {
-    if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+    if (
+      cameraPermissionInformation.status ===
+      ImagePicker1.PermissionStatus.UNDETERMINED
+    ) {
       const permissionResponse = await requestPermission();
 
       return permissionResponse.granted;
     }
 
-    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
+    if (
+      cameraPermissionInformation.status ===
+      ImagePicker1.PermissionStatus.DENIED
+    ) {
       Alert.alert(
         "Insufficient Permissions!",
         "You need to grant camera permissions to use this app."
@@ -37,14 +45,21 @@ function ImagePicker() {
     if (!hasPermission) {
       return;
     }
+    console.log(11242412);
+    try {
+      const image = await ImagePicker1.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 0.5,
+      });
+      console.error(image);
+      console.log(image.assets[0].uri);
+      setPickedImage(image.assets[0].uri);
 
-    const image = await launchCameraAsync({
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
-    console.log(image);
-    setPickedImage(image.uri);
+      console.log(66666);
+    } catch (error) {
+      console.log(4444);
+    }
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;
