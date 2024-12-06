@@ -25,17 +25,23 @@
         "backgroundColor": "#FFFFFF"
       }
     },
-    "permissions": ["CAMERA"],
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow us to use your location."
+        }
+      ],
+      [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "cameraPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
+     
     ]
   }
 }
