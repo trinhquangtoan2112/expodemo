@@ -38,9 +38,13 @@ export default function LocationPicker() {
   async function getLocationHandler() {
     const result = await verifyPermissions();
     console.log(result);
-
-    const location = await getCurrentPositionAsync();
-    console.log(location);
+    try {
+      const location = await getCurrentPositionAsync();
+      console.log(location);
+      console.error(location);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function pickOnMapHandler() {}
